@@ -46,7 +46,7 @@ output "karpenter_queue_name" {
 
 output "karpenter_node_instance_profile_name" {
   description = "Name of the IAM instance profile for Karpenter nodes"
-  value       = module.karpenter.node_instance_profile_name
+  value       = module.karpenter.instance_profile_arn
 }
 
 output "karpenter_node_iam_role_arn" {
