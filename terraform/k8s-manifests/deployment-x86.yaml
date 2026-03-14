@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-x86
+  labels:
+    app: nginx-x86
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-x86
+  template:
+    metadata:
+      labels:
+        app: nginx-x86
+    spec:
+      # Node selector to ensure pods run on x86/amd64 nodes
+      nodeSelector:
+        kubernetes.io/arch: amd64
+
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-x86
+spec:
+  selector:
+    app: nginx-x86
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

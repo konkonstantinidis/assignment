@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-arm64
+  labels:
+    app: nginx-arm64
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-arm64
+  template:
+    metadata:
+      labels:
+        app: nginx-arm64
+    spec:
+      # Node selector to ensure pods run on arm64/Graviton nodes
+      nodeSelector:
+        kubernetes.io/arch: arm64
+
+      containers:
+      - name: nginx
+        # Using multi-arch nginx image that supports arm64
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-arm64
+spec:
+  selector:
+    app: nginx-arm64
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
