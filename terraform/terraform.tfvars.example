@@ -1,0 +1,51 @@
+# Example Terraform variables file
+# Copy this file to terraform.tfvars and customize the values
+
+# AWS Region where resources will be created
+region = "eu-west-1"
+
+# Name of the EKS cluster
+cluster_name = "opsfleet-eks-cluster"
+
+# Kubernetes version for the EKS cluster
+# Use latest stable version (1.31 as of 2026)
+cluster_version = "1.31"
+
+# VPC CIDR block
+vpc_cidr = "10.0.0.0/16"
+
+# Availability zones to use (3 AZs for high availability)
+azs = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+
+# Private subnet CIDR blocks (for EKS nodes)
+private_subnets = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+
+# Public subnet CIDR blocks (for NAT gateways, load balancers)
+public_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+
+# Enable NAT Gateway (required for private subnets to access internet)
+enable_nat_gateway = true
+
+# Use single NAT Gateway for cost optimization
+# Set to false to create one NAT Gateway per AZ for high availability
+single_nat_gateway = true
+
+# Instance types for managed node group (system workloads)
+managed_node_group_instance_types = ["t3.medium"]
+
+# Managed node group sizing
+managed_node_group_min_size     = 2
+managed_node_group_max_size     = 3
+managed_node_group_desired_size = 2
+
+# Karpenter configuration
+karpenter_namespace     = "kube-system"
+karpenter_chart_version = "1.1.1"
+
+# Tags to apply to all resources
+tags = {
+  Environment = "poc"
+  ManagedBy   = "terraform"
+  Project     = "opsfleet-eks"
+  Team        = "platform"
+}
