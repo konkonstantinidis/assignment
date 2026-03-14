@@ -16,12 +16,8 @@
 5. [Database Layer](#database-layer)
 6. [Security Architecture](#security-architecture)
 7. [Observability and Monitoring](#observability-and-monitoring)
-8. [High-Level Architecture Diagram](#high-level-architecture-diagram)
-9. [Cost Considerations](#cost-considerations)
-10. [Scaling Strategy](#scaling-strategy)
-11. [Disaster Recovery](#disaster-recovery)
-12. [Implementation Roadmap](#implementation-roadmap)
-
+8. [Cost Considerations](#cost-considerations)
+9. [Disaster Recovery](#disaster-recovery)
 ---
 
 ## Executive Summary
