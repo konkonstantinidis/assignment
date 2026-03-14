@@ -2,17 +2,17 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 21.0"
 
-  cluster_name    = var.cluster_name
-  cluster_version = var.cluster_version
+  name    = var.cluster_name
+  kubernetes_version = var.cluster_version
 
   # Cluster endpoint access
-  cluster_endpoint_public_access = true
+  endpoint_public_access = true
 
   # Enable IRSA (IAM Roles for Service Accounts)
   enable_irsa = true
 
   # Cluster addons
-  cluster_addons = {
+  addons = {
     coredns = {
       most_recent = true
     }
@@ -33,7 +33,7 @@ module "eks" {
   control_plane_subnet_ids = module.vpc.private_subnets
 
   # Enable cluster logging
-  cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+  enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   # EKS managed node group for system workloads
   # These nodes are tainted to prevent application workloads and reserved for:
@@ -53,11 +53,13 @@ module "eks" {
       desired_size = var.managed_node_group_desired_size
 
       # Taint to prevent application workloads from scheduling on these nodes
-      taints = [{
-        key    = "CriticalAddonsOnly"
-        value  = "true"
-        effect = "NO_SCHEDULE"
-      }]
+      taints = {
+        critical = {
+          key    = "CriticalAddonsOnly"
+          value  = "true"
+          effect = "NO_SCHEDULE"
+        }
+      }
 
       labels = {
         role = "system"

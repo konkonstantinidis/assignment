@@ -5,9 +5,7 @@ module "karpenter" {
 
   cluster_name = module.eks.cluster_name
 
-  # Enable spot interruption handling
-  enable_irsa                     = true
-  irsa_oidc_provider_arn          = module.eks.oidc_provider_arn
+  # Enable spot interruption handling and Pod Identity
   create_pod_identity_association = true
 
   # Create IAM role for Karpenter nodes
